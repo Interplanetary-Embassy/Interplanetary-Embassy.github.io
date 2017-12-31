@@ -339,6 +339,7 @@ $(document).ready(function()
             contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smalltopia</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=4,4,4">Quartz</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=88,88,88">Gentin</a></li>';
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=5935,7318,1022">Republic of Ropsten</a></li>';
