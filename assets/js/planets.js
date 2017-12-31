@@ -331,23 +331,14 @@ $(document).ready(function()
         e.preventDefault();
         var title = 'Interplanetary Directory';
         //var contents = '<p>Known planets within the Ropsten universe include:</p>';
-        var contents = '<p>Known planets within the <a href="https://etherscan.io/address/0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68" target="_blank">Ethereum</a> universe include:</p>';
+        var contents = '<p>Known planets within the <a href="https://etherscan.io/address/0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68" target="_blank">Ethereum</a> universe include:</p><hr>';
         contents+= '<ul class="list-group">';
         
             contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=5,3,1979">Smallville</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=6,6,6">Hellio 1</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=3,5,1979">United State of Smallville</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=987654321,123456789,987654321">Far Point 9</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=7,5,2">NowNow</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=11,19,1989">Republic of the DroneRiders</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=1066,1066,1066">Williamsphere III</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=7,11,86">The Red One</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=94678,64010,12345678">Gargantua</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smalltopia</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=4,4,4">Quartz</a></li>';
-        
-            contents+= '<li class="list-group-item"><a href="?coords=99999999999999999999999999999999999999999999999999999999999999999999999999999,99999999999999999999999999999999999999999999999999999999999999999999999999999,99999999999999999999999999999999999999999999999999999999999999999999999999999">The End</a></li>';
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=5935,7318,1022">Republic of Ropsten</a></li>';
