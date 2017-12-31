@@ -38,8 +38,10 @@ var bloqverse = {
                 footer_html+= '<b class="biome-key urban-biome" style="border-color: '+planet.urban[3]+';">Urban <i class="stat">??</i>%</b></p>';
                 footer_html+= '<p><a href="#" class="btn btn-default btn-xs search-again">search for life</a> ';
                 footer_html+= '<a href="#" class="btn btn-default btn-xs galactic-directory">known planets</a> ';
-                footer_html+= '<a href="#" class="btn btn-default btn-xs planet-info">learn more about this planet</a></p>';
+                footer_html+= '<a href="#" class="btn btn-default btn-xs share-planet">share</a> ';
+                footer_html+= '<a href="#" class="btn btn-default btn-xs planet-info">planet stats</a></p>';
                 
+                document.title = planet.name + ' | Interplanetary Embassy';
                 $(header).html(header_html);
                 $(footer).html(footer_html);
                 
@@ -97,6 +99,22 @@ var bloqverse = {
                 
                 $('#header').show();
                 $('#footer').show();
+                
+                // Update social meta
+                $('.btn-social-icon').each(function(i)
+                {
+                    var button = this;
+                    var pattern = $(button).attr('data-pattern');
+                    if(pattern)
+                    {
+                        var pattern = JSON.parse(JSON.stringify(pattern.replace('$URL', window.location.href)));
+                        if(pattern.indexOf('$TITLE') > -1)
+                        {
+                            var pattern = JSON.parse(JSON.stringify(pattern.replace('$TITLE', planet.name + ' of The Interplanetary Embassy')));
+                        }
+                    }
+                    $(button).attr('href', pattern);
+                });
             }
             
         }

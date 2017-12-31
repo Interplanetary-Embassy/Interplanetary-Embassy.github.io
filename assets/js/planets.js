@@ -250,6 +250,12 @@ $(document).ready(function()
             });
         }
     });
+    $('body').on('click', '.share-planet', function(e)
+    {
+        e.preventDefault();
+        var button = this;
+        $.fn.bloqpress.core.modal(false, false, 'social-modal');
+    });
     $('body').on('click', '.create-planet', function(e)
     {
         e.preventDefault();

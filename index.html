@@ -7,6 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         
 		<title>Interplanetary Embassy</title>
+    
+        <!-- FACEBOOK META -->
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="The Interplanetary Embassy of Earth" />
+        <meta property="og:url" content="http://interplanetaryembassy.com/" />
+        <meta property="og:site_name" content="Interplanetary Embassy" />
+        <meta property="og:description" content="Learn about blockchains by building planets on the Ethereum network" />
+        <meta property="og:image" content="https://raw.githubusercontent.com/msmalley/planets/master/assets/img/obviiious.png" />
         
         <!-- EXTERNAL DEPENDENCIES -->
 		<script src="assets/js/jquery-2.1.0.min.js"></script>
@@ -39,6 +48,7 @@
 		<link rel="stylesheet" type="text/css" href="assets/css/planet-generator.css" />
 		<link rel="stylesheet" type="text/css" href="assets/css/stars.css" />
 		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
 		<link rel="stylesheet" type="text/css" href="assets/css/planets.css" />
         
         <!-- 
@@ -229,6 +239,59 @@
                         <h4 class="modal-title" id="myModalLabel"></h4>
                     </div>
                     <div class="modal-body"></div>
+                </div>
+            </div>
+        </div>        
+
+        <div class="modal fade" id="social-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Share This Planet</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <p class="planet-description">Share this planet with friends and family:</p>
+                        <div class="social share">
+
+                            <a
+                               target="_blank" 
+                               class="btn btn-social-icon btn-facebook" 
+                               data-pattern="http://www.facebook.com/sharer/sharer.php?u=$URL&amp;t=$TITLE"
+                               href="#"
+                            >
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a 
+                               target="_blank" 
+                               class="btn btn-social-icon btn-twitter" 
+                               data-pattern="https://twitter.com/intent/tweet?url=$URL&amp;via=$TITLE"
+                               href="#"
+                            >
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a 
+                               target="_blank" 
+                               class="btn btn-social-icon btn-google-plus" 
+                               data-pattern="https://plus.google.com/share?url=$URL"
+                               href="#"
+                            >
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a 
+                               target="_blank" 
+                               class="btn btn-social-icon btn-linkedin" 
+                               data-pattern="http://www.linkedin.com/shareArticle?mini=true&amp;url=$URL&amp;title=$TITLE"
+                               href="#"
+                            >
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
