@@ -237,7 +237,7 @@ $(document).ready(function()
                 $('#footer').show();
                 $(form).show();
                 $(form).find('button[type="submit"]').removeClass('loading');
-                $('#search-modal').modal('show');
+                
                 if($.isPlainObject(results))
                 {
                     $('#search-coordinates alert.alert').html('We found a planet called ' + results.name + ' at these coorindates.<br />Would you like to <a href="?coords='+x+','+y+','+z+'"><code><strong>visit</strong></code></a> this planet?');
@@ -246,6 +246,11 @@ $(document).ready(function()
                 {
                     $('#search-coordinates alert.alert').html('There is no planet at these coordinates.<br >Would you like to <a href="#" class="create-planet" data-x="'+x+'" data-y="'+y+'" data-z="'+z+'"><code><strong>create</strong></code></a> one now?');
                 }
+                
+                setTimeout(function()
+                {
+                    $('#search-modal').modal('show');
+                }, 1000);
             });
         }
     });
