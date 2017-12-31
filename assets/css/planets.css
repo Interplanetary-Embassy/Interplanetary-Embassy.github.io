@@ -1,4 +1,9 @@
 /* MAIN BGs */
+body, html, body html {
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+}
 #viewportFrame {
     position: absolute;
     top: 0;
@@ -18,9 +23,6 @@
     background-size: 150% 150%;
     background-position: 50% 50%;
     background-repeat: no-repeat;
-}
-#viewportFrame canvas {
-    padding: 30px;
 }
 
 /* 
@@ -214,4 +216,21 @@ MODALS
 .modal .list-group-item {
     background: #333;
     border-color: #555;
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+    .modal .modal-body,
+    .modal .modal-body ul li.list-group-item {
+        text-align: center;
+    }
+    #header {
+        background: #333;
+        border-bottom: 1px solid #69B9FF;
+        height: 120px;
+        overflow: auto;
+    }
+    #header .container {
+        padding-bottom: 15px;
+    }
 }

@@ -32,7 +32,7 @@ var bloqverse = {
                 var cities = planet.urban[4].toLowerCase();
                 var species = planet.animals.species.toLowerCase();
                 var species_intro = '( ' + cities + ' cities are forming on the islands of ' + islands + ' that lie scattered across a ' + ocean + ' ocean where the ' + species + ' have become the primary species )';
-                var header_html = '<h4 class="planet-name">The Planet known as ' + planet.name + ' is Evolving ...</h4><small>' + species_intro + '</small>';
+                var header_html = '<h4 class="planet-name">The Planet known as ' + planet.name + ' is Evolving</h4><small>' + species_intro + '</small>';
                 var footer_html = '<p><b class="biome-key ocean-biome" style="border-color: '+planet.oceans[3]+';">Oceans <i class="stat">??</i>%</b> ';
                 footer_html+= '<b class="biome-key rural-biome" style="border-color: '+planet.rural[3]+';">Rural <i class="stat">??</i>%</b> ';
                 footer_html+= '<b class="biome-key urban-biome" style="border-color: '+planet.urban[3]+';">Urban <i class="stat">??</i>%</b></p>';
