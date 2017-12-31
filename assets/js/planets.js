@@ -195,9 +195,8 @@ $(document).ready(function()
             };
             
             var title = 'Start Minting Planet';
-            var content = '<alert class="alert alert-block alert-danger">Warning:<br><small>Do not close this pop-up until the process is complete</small></alert><hr>';
-            content+= '<alert class="alert alert-block alert-info">Temporary Holding Address:<br><small><a href="https://etherscan.io/address/' + temp_keys.address + '" target="_blank">0x' + temp_keys.address + '</a></small></alert><hr>';
-            content+= '<alert id="current-generation-status" class="alert alert-block alert-warning">Status:<br><small><strong>Waiting for minimum deposit of ' + min + ' Ether</strong><br>(to be sent to address listed above and shown below as QR code)</small></alert><hr>';
+            var content = '<alert class="alert alert-block alert-danger">Warning:<br><small>Do not close this pop-up until the process is complete</small><hr>Donation Address<br><small><a href="https://etherscan.io/address/' + temp_keys.address + '" target="_blank">0x' + temp_keys.address + '</a></small></alert>';
+            content+= '<alert id="current-generation-status" class="alert alert-block alert-warning">Status:<br><small><strong>Waiting for minimum deposit of ' + min + ' Ether</strong><br>(send to address listed above and shown below as QR code)</small></alert><hr>';
             content+= '<div class="qr-holder wait-for-donation" data-content="' + '0x' + temp_keys.address + '" data-key="' + temp_keys.private + '" data-name="' + name + '" data-owner="' + owner + '" data-x="' + x + '" data-y="' + y + '" data-z="' + z + '" data-min="' + min +'" data-fees="' + fees + '"></div>';
             $.fn.bloqpress.core.modal(title, content, 'default-modal', function()
             {
@@ -211,8 +210,8 @@ $(document).ready(function()
                         render: 'image',
                         text: $(this).attr('data-content')
                     });
-                    check_for_donations();
                 });
+                check_for_donations();
             });
         }
     });
