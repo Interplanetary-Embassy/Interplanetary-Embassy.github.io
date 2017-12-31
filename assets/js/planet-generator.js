@@ -51,8 +51,8 @@ var KEY_RIGHTARROW = 39;
 var KEY_DOWNARROW = 40;
 
 var KEY = {};
-for (var k = 0; k < 10; ++k) KEY[ String.fromCharCode(k + 48) ] = k + 48;
-for (var k = 0; k < 26; ++k) KEY[ String.fromCharCode(k + 65) ] = k + 65;
+//for (var k = 0; k < 10; ++k) KEY[ String.fromCharCode(k + 48) ] = k + 48;
+//for (var k = 0; k < 26; ++k) KEY[ String.fromCharCode(k + 65) ] = k + 65;
 
 $(document).ready(function()
 {
@@ -2890,8 +2890,8 @@ var lastRenderFrameTime = null;
 
 function getLatitudeDelta()
 {
-	var up = (pressedKeys[KEY.W] || pressedKeys[KEY.Z] || pressedKeys[KEY_UPARROW]);
-	var down = (pressedKeys[KEY.S] || pressedKeys[KEY_DOWNARROW]);
+	var up = (pressedKeys[KEY_UPARROW]);
+	var down = (pressedKeys[KEY_DOWNARROW]);
 	if (up && !down) return +1;
 	if (down && !up) return -1;
 	return 0;
@@ -2899,8 +2899,8 @@ function getLatitudeDelta()
 
 function getLongitudeDelta()
 {
-	var left = (pressedKeys[KEY.A] || pressedKeys[KEY.Q] || pressedKeys[KEY_LEFTARROW]);
-	var right = (pressedKeys[KEY.D] || pressedKeys[KEY_RIGHTARROW]);
+	var left = (pressedKeys[KEY_LEFTARROW]);
+	var right = (pressedKeys[KEY_RIGHTARROW]);
 	if (right && !left) return +1;
 	if (left && !right) return -1;
 	return 0;
@@ -3203,12 +3203,6 @@ function keyDownHandler(event)
 	
 	switch (event.which)
 	{
-		case KEY.W:
-		case KEY.A:
-		case KEY.S:
-		case KEY.D:
-		case KEY.Z:
-		case KEY.Q:
 		case KEY_LEFTARROW:
 		case KEY_RIGHTARROW:
 		case KEY_UPARROW:
@@ -3226,30 +3220,11 @@ function keyUpHandler(event)
 
 	switch (event.which)
 	{
-		case KEY.W:
-		case KEY.A:
-		case KEY.S:
-		case KEY.D:
 		case KEY_LEFTARROW:
 		case KEY_RIGHTARROW:
 		case KEY_UPARROW:
 		case KEY_DOWNARROW:
 			pressedKeys[event.which] = false;
-			event.preventDefault();
-			break;
-		case KEY["1"]:
-			setSubdivisions(20);
-			generatePlanetAsynchronous();
-			event.preventDefault();
-			break;
-		case KEY["2"]:
-			setSubdivisions(40);
-			generatePlanetAsynchronous();
-			event.preventDefault();
-			break;
-		case KEY["3"]:
-			setSubdivisions(60);
-			generatePlanetAsynchronous();
 			event.preventDefault();
 			break;
 	}

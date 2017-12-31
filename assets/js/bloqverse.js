@@ -37,6 +37,7 @@ var bloqverse = {
                 footer_html+= '<b class="biome-key rural-biome" style="border-color: '+planet.rural[3]+';">Rural <i class="stat">??</i>%</b> ';
                 footer_html+= '<b class="biome-key urban-biome" style="border-color: '+planet.urban[3]+';">Urban <i class="stat">??</i>%</b></p>';
                 footer_html+= '<p><a href="#" class="btn btn-default btn-xs search-again">search for life</a> ';
+                footer_html+= '<a href="#" class="btn btn-default btn-xs galactic-directory">known planets</a> ';
                 footer_html+= '<a href="#" class="btn btn-default btn-xs planet-info">learn more about this planet</a></p>';
                 
                 $(header).html(header_html);

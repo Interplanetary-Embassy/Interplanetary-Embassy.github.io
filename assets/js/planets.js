@@ -11,6 +11,9 @@ var planet_contract_settings = {
     min_donation: 0.1
 };
 
+// IPFS Animal = https://ipfs.infura.io/ipfs/Qma3GU1jqWdeNYZqB9qyzcy6SGA41wkd8DuhLHd1Li12oQ/animals.json
+// IPFS Adjectives = https://ipfs.infura.io/ipfs/QmWhkhtxiwWvfU4oCx5nuxTWvUQAtn3j2fVyveF7ogkmQi/adjectives.json
+
 function generate_unicorn_name(gender)
 {
     var name = false;
@@ -396,7 +399,24 @@ function check_for_donations(check_count)
                     var current_ether = 0;
                     var min_wei = parseInt(parseFloat(min) * 1000000000000000000);
                     var min_donation = parseInt(parseFloat(planet_contract_settings.min_donation) * 1000000000000000000);
-                    var contract_cost = parseInt(parseFloat(fees) * 1000000000000000000);
+                    
+                    
+                    
+                    
+                    var abi = web3.eth.contract(unicorn_planet_abi);
+                    var contract = abi.at(unicorn_planet_contract_address);
+                    var data = contract['assignNewPlanet'].getData(owner, x_cord, y_cord, z_cord, name);
+
+                    var gas_price = web3.eth.gasPrice;
+                    var new_contract_cost = web3.eth.estimateGas({
+                        from: address,
+                        to: unicorn_planet_contract_address,
+                        data: data,
+                        value: obj.balance
+                    });
+                    
+                    contract_cost = new_contract_cost * gas_price;
+                    
                     if(
                         typeof obj.balance != 'undefined'
                         && obj.balance >= min_wei
@@ -404,8 +424,7 @@ function check_for_donations(check_count)
                         $(qr).removeClass('wait-for-donation');
                         var tx_value = obj.balance - contract_cost;
                         var tx_eth_value = parseFloat(tx_value / 1000000000000000000);
-                        console.log('tx_value', tx_value);
-                        console.log('tx_eth_value', tx_eth_value);
+                        
                         prepare_for_planet_creation(
                             x_cord, y_cord, z_cord, 
                             name, owner, 
