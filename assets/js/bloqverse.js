@@ -42,6 +42,7 @@ var bloqverse = {
                 footer_html+= '<a href="#" class="btn btn-default btn-xs planet-info">planet stats</a></p>';
                 
                 document.title = planet.name + ' | Interplanetary Embassy';
+                $('meta[property="og:site_name"]').attr('content') = planet.name + ' | Interplanetary Embassy';
                 $(header).html(header_html);
                 $(footer).html(footer_html);
                 
