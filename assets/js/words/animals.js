@@ -328,6 +328,7 @@ var interplanetary_animals = [
   "Lung-Fish",
   "Lynx",
   "Maggot",
+  "Maggots",
   "Magpie",
   "Mallard",
   "Mammal",
