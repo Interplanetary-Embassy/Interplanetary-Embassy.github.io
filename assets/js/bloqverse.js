@@ -1,9 +1,9 @@
 var bloqverse_settings = {
     universe: {
         name: 'bce.asia',
-        contract: '0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68',
-        donations: '0x1aFa7039c7c0c896E6e76e43E536E925b5Fc871d',
-        coordinate_limits: 9999,
+        contract: '0x99311dd2f159320e6ce94d4427a184b4cc080de5',
+        donations: '0x4867C28C13901000a59749595118141FB8D7B88d',
+        coordinate_limits: 99,
         min_donation: 0.09
     }
 };

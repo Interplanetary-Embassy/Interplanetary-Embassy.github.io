@@ -143,6 +143,14 @@ $(document).ready(function()
         contents+= '<ul class="list-group">';
         
             contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smallville</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=92,9,10">Republic Gargantua</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=93,1,29">Tineedeztroy</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=13,1,89">Zion</a></li>';
+        
+            /*
             contents+= '<li class="list-group-item"><a href="?coords=5,5,5">Thinko</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=6,6,6">Hellio 1</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
@@ -151,6 +159,7 @@ $(document).ready(function()
             contents+= '<li class="list-group-item"><a href="?coords=4,4,4">Quartz</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=88,88,88">Gentin</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1066,1066,1066">Williamsphere III</a></li>';
+            */
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=5935,7318,1022">Republic of Ropsten</a></li>';
