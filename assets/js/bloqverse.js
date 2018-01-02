@@ -1,6 +1,10 @@
 var bloqverse_settings = {
     universe: {
-        meta: 'bce'
+        name: 'bce.asia',
+        contract: '0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68',
+        donations: '0x1aFa7039c7c0c896E6e76e43E536E925b5Fc871d',
+        coordinate_limits: 9999,
+        min_donation: 0.1
     }
 };
 
@@ -27,12 +31,14 @@ var bloqverse = {
                 && $(footer).length > 0
                 && $(modal).length > 0
             ){
+                var space = planet.space[4].toLowerCase();
+                var sun = planet.sun[4].toLowerCase();
                 var ocean = planet.oceans[4].toLowerCase();
                 var islands = planet.rural[4].toLowerCase();
                 var cities = planet.urban[4].toLowerCase();
                 var species = planet.animals.species.toLowerCase();
                 var species_intro = '( ' + cities + ' cities are forming on the islands of ' + islands + ' that lie scattered across a ' + ocean + ' ocean where the ' + species + ' have become the primary species )';
-                var header_html = '<h4 class="planet-name">The Planet known as ' + planet.name + ' is Evolving</h4><small>' + species_intro + '</small>';
+                var header_html = '<h4 class="planet-name">The planet known as <strong>' + planet.name + '</strong> is evolving</h4><small>' + species_intro + '</small>';
                 var footer_html = '<p><b class="biome-key ocean-biome" style="border-color: '+planet.oceans[3]+';">Oceans <i class="stat">??</i>%</b> ';
                 footer_html+= '<b class="biome-key rural-biome" style="border-color: '+planet.rural[3]+';">Rural <i class="stat">??</i>%</b> ';
                 footer_html+= '<b class="biome-key urban-biome" style="border-color: '+planet.urban[3]+';">Urban <i class="stat">??</i>%</b></p>';
@@ -42,7 +48,7 @@ var bloqverse = {
                 footer_html+= '<a href="#" class="btn btn-default btn-xs planet-info">planet stats</a></p>';
                 
                 document.title = planet.name + ' | Interplanetary Embassy';
-                $('meta[id=the_site_title]').attr('content', planet.name + ' | Interplanetary Embassy');
+
                 $(header).html(header_html);
                 $(footer).html(footer_html);
                 
@@ -57,6 +63,8 @@ var bloqverse = {
                 var island_array = islands.split(' ');
                 var city_array = cities.split(' ');
                 var name_array = planet.name.split(' ');
+                var space_array = space.split(' ');
+                var sun_array = sun.split(' ');
                 var rulers_array = (planet.rulers.male + ' ' + planet.rulers.female).split(' ');
                 
                 var planet_dna = '' + planet.dna[0] + planet.dna[1] + planet.dna[2] + '';
@@ -64,32 +72,74 @@ var bloqverse = {
                 var planet_meta = '';
                 $.each(ocean_array, function(i)
                 {
-                    planet_meta+= '' + ocean_array[i].toLowerCase() + ', ';
+                    var this_value = ocean_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
                 });
                 $.each(island_array, function(i)
                 {
-                    planet_meta+= '' + island_array[i].toLowerCase() + ', ';
+                    var this_value = island_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
                 });
                 $.each(city_array, function(i)
                 {
-                    planet_meta+= '' + city_array[i].toLowerCase() + ', ';
+                    var this_value = city_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
                 });
                 $.each(animal_array, function(i)
                 {
-                    planet_meta+= '' + animal_array[i].toLowerCase() + ', ';
+                    var this_value = animal_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
                 });
                 $.each(rulers_array, function(i)
                 {
-                    planet_meta+= '' + rulers_array[i].toLowerCase() + ', ';
+                    var this_value = rulers_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
                 });
                 $.each(name_array, function(i)
                 {
-                    planet_meta+= '' + name_array[i].toLowerCase() + ', ';
+                    var this_value = name_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
                 });
-                planet_meta+= '' + bloqverse_settings.universe.meta;
+                $.each(space_array, function(i)
+                {
+                    var this_value = space_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
+                });
+                $.each(sun_array, function(i)
+                {
+                    var this_value = sun_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
+                });
+                planet_meta+= '' + bloqverse_settings.universe.name;
+                
+                var planet_intro = 'In that vast depths of ' + space + ' space the planet of ' + planet.name + ' orbits a nearby ' + sun + ' sun. On the planet surface ' + cities + ' cities have starting developing on the islands of ' + islands + ' that lie scattered across a ' + ocean + ' ocean. Under the leadership of ' + planet.rulers.male + '; these ' + species + ' have become the dominant species:';
                 
                 $(modal).find('.modal-title').text(planet.name);
-                $(modal).find('.universe-contract').text(unicorn_planet_contract_address);
+                $(modal).find('.universe-contract').text(bloqverse_settings.universe.contract);
                 $(modal).find('.primary-species').text(planet.animals.species);
                 $(modal).find('.planet-owner').text(planet.owner);
                 $(modal).find('.universal-coordinates').text(coords);
@@ -97,6 +147,7 @@ var bloqverse = {
                 $(modal).find('.next-monarch').text(planet.rulers.female);
                 $(modal).find('.planet-dna').text(planet_dna);
                 $(modal).find('.planet-meta').text(planet_meta);
+                $(modal).find('.planet-intro').text(planet_intro);
                 
                 $('#header').show();
                 $('#footer').show();

@@ -3165,8 +3165,6 @@ function clickHandler(event)
 		var x = event.pageX / renderer.domElement.width * 2 - 1;
 		var y = 1 - event.pageY / renderer.domElement.height * 2;
 		var ray;
-        console.log('x', x);
-        console.log('y', y);
 		if (projectionRenderMode === "globe")
 		{
 			var rayCaster = projector.pickingRay(new Vector3(x, y, 0), camera);
@@ -3186,9 +3184,7 @@ function clickHandler(event)
 			origin.applyMatrix4(transformation);
 			ray = new THREE.Ray(origin, origin.clone().negate().normalize());
 		}
-        console.log('ray', ray);
 		var intersection = planet.partition.intersectRay(ray);
-        console.log('intersection', intersection);
 		if (intersection !== false)
 			selectTile(intersection);
 		else

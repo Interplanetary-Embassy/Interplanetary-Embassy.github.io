@@ -2,18 +2,6 @@ var show_planet = false;
 var unicorn_planet = false;
 var unicorn_names = false;
 
-var unicorn_planet_contract_address = '0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68';
-var unicorn_planet_donation_address = '0x1aFa7039c7c0c896E6e76e43E536E925b5Fc871d';
-var testnet_unicorn_planet_contract_address = '0x27728d9a0a4dEDA56d4eCF0CBBd4F473ae878e0A';
-
-var planet_contract_settings = {
-    coordinate_limits: 99,
-    min_donation: 0.1
-};
-
-// IPFS Animal = https://ipfs.infura.io/ipfs/Qma3GU1jqWdeNYZqB9qyzcy6SGA41wkd8DuhLHd1Li12oQ/animals.json
-// IPFS Adjectives = https://ipfs.infura.io/ipfs/QmWhkhtxiwWvfU4oCx5nuxTWvUQAtn3j2fVyveF7ogkmQi/adjectives.json
-
 function generate_unicorn_name(gender)
 {
     var name = false;
@@ -276,35 +264,35 @@ $(document).ready(function()
             $('#search-modal').modal('hide');
             
             if(
-                x_cord > planet_contract_settings.coordinate_limits
+                x_cord > bloqverse_settings.universe.coordinate_limits
                 || x_cord < 0
             ){
-                $.fn.bloqpress.core.modal('Warning', 'Invalid X coordinate - must be between 0 and ' + planet_contract_settings.coordinate_limits);
+                $.fn.bloqpress.core.modal('Warning', 'Invalid X coordinate - must be between 0 and ' + bloqverse_settings.universe.coordinate_limits);
             }
             else if(
-                y_cord > planet_contract_settings.coordinate_limits
+                y_cord > bloqverse_settings.universe.coordinate_limits
                 || y_cord < 0
             ){
-                $.fn.bloqpress.core.modal('Warning', 'Invalid Y coordinate - must be between 0 and ' + planet_contract_settings.coordinate_limits);
+                $.fn.bloqpress.core.modal('Warning', 'Invalid Y coordinate - must be between 0 and ' + bloqverse_settings.universe.coordinate_limits);
             }
             else if(
-                z_cord > planet_contract_settings.coordinate_limits
+                z_cord > bloqverse_settings.universe.coordinate_limits
                 || z_cord < 0
             ){
-                $.fn.bloqpress.core.modal('Warning', 'Invalid Z coordinate - must be between 0 and ' + planet_contract_settings.coordinate_limits);
+                $.fn.bloqpress.core.modal('Warning', 'Invalid Z coordinate - must be between 0 and ' + bloqverse_settings.universe.coordinate_limits);
             }
             else
             {
 
                 var abi = web3.eth.contract(unicorn_planet_abi);
-                var contract = abi.at(unicorn_planet_contract_address);
-                var data = contract['assignNewPlanet'].getData(unicorn_planet_donation_address, x_coors, y_coors, z_coors,'The Longest Possible Planet Name Someone Would Seriously Consider?');
+                var contract = abi.at(bloqverse_settings.universe.contract);
+                var data = contract['assignNewPlanet'].getData(bloqverse_settings.universe.donations, x_coors, y_coors, z_coors,'The Longest Possible Planet Name Someone Would Seriously Consider?');
                 var wei_to_send = parseInt(web3.toWei(0.1));
                 var gas_price = web3.eth.gasPrice;
 
                 var estimated_gas = web3.eth.estimateGas({
-                    from: unicorn_planet_donation_address,
-                    to: unicorn_planet_contract_address,
+                    from: bloqverse_settings.universe.donations,
+                    to: bloqverse_settings.universe.contract,
                     data: data,
                     value: wei_to_send
                 });
@@ -315,7 +303,7 @@ $(document).ready(function()
                 var total_eth_required = parseFloat(web3.toDecimal(web3.fromWei(total_wei_required), 'ether')).toFixed(2);
 
                 var title = 'Generate New Planet';
-                var contents = '<p>Generate planet at X = '+x_coors+', Y = '+y_coors+', and Z = '+z_coors+' by giving it a name and making a minimum donation of 0.1 Ether - whilst also paying the estimated gas price of '+total_fees+' - for a <strong>minimum total</strong> of at least <strong>'+total_eth_required+'</strong> Ether. Please note that as a registered non-profit - all donations received by the <a href="http://bce.asia" target="_blank">Blockchain Embassy</a> are used to help promote blockchain technology awareness throughout asia. Simply fill out the form below to get started:</p><hr>';
+                var contents = '<p>Generate planet at X = '+x_coors+', Y = '+y_coors+', and Z = '+z_coors+' by giving it a name and making a minimum donation of 0.1 Ether - whilst also paying the estimated gas price of '+total_fees+' - for a <strong>minimum total</strong> of at least <strong>'+total_eth_required+'</strong> Ether. Please note that as a registered non-profit - all donations received by the <a href="http://bce.asia" target="_blank">Blockchain Embassy</a> are used to help promote blockchain technology awareness throughout asia.</p><p><strong>Simply fill out the form below to get started:</strong></p><hr>';
                 contents+= '<form id="generate-new-planet" data-x="'+x_coors+'" data-y="'+y_coors+'" data-z="'+z_coors+'" data-min="'+total_eth_required+'" data-fees="' + total_fees + '">';
                     contents+= '<input type="text" id="planet-name" class="form-control" autocomplete="off" placeholder="What would you like to call this planet...?" /><hr>';
                     contents+= '<input type="text" id="planet-owner" class="form-control" autocomplete="off" placeholder="Ethereum address to which ownership of the planet should be assigned...?" /><hr>';
@@ -353,7 +341,7 @@ $(document).ready(function()
         contents+= '</ul>';
         $.fn.bloqpress.core.modal(title, contents);
     });
-    $.fn.bloqpress.plugins.ethereum.contracts.get(unicorn_planet_contract_address, unicorn_planet_abi, function(contract)
+    $.fn.bloqpress.plugins.ethereum.contracts.get(bloqverse_settings.universe.contract, unicorn_planet_abi, function(contract)
     {
         var total_planets = contract.totalSupply().toString();
         $('#footer .planet-stats').append('<br><small>' + total_planets + ' Planets Currently Stored on The Ethereum Blockchain</small>');
@@ -400,19 +388,16 @@ function check_for_donations(check_count)
                 {
                     var current_ether = 0;
                     var min_wei = parseInt(parseFloat(min) * 1000000000000000000);
-                    var min_donation = parseInt(parseFloat(planet_contract_settings.min_donation) * 1000000000000000000);
-                    
-                    
-                    
+                    var min_donation = parseInt(parseFloat(bloqverse_settings.universe.min_donation) * 1000000000000000000);
                     
                     var abi = web3.eth.contract(unicorn_planet_abi);
-                    var contract = abi.at(unicorn_planet_contract_address);
+                    var contract = abi.at(bloqverse_settings.universe.contract);
                     var data = contract['assignNewPlanet'].getData(owner, x_cord, y_cord, z_cord, name);
 
                     var gas_price = web3.eth.gasPrice;
                     var new_contract_cost = web3.eth.estimateGas({
                         from: address,
-                        to: unicorn_planet_contract_address,
+                        to: bloqverse_settings.universe.contract,
                         data: data,
                         value: obj.balance
                     });
@@ -474,7 +459,7 @@ function prepare_for_planet_creation(x_co, y_co, z_co, planet_name, planet_owner
 {
     assign_new_planet(
         unicorn_planet_abi, 
-        unicorn_planet_contract_address, 
+        bloqverse_settings.universe.contract, 
         {
             x: parseInt(x_co),
             y: parseInt(y_co),
@@ -485,7 +470,7 @@ function prepare_for_planet_creation(x_co, y_co, z_co, planet_name, planet_owner
         holding_address, 
         holding_key, 
         tx_value,
-        unicorn_planet_donation_address,
+        bloqverse_settings.universe.donations,
         callback
     );
 }
@@ -494,7 +479,7 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
 {
     $('#viewportFrame').addClass('loading');
     $('#search-modal').modal('hide');
-    $.fn.bloqpress.plugins.ethereum.contracts.get(unicorn_planet_contract_address, unicorn_planet_abi, function(contract)
+    $.fn.bloqpress.plugins.ethereum.contracts.get(bloqverse_settings.universe.contract, unicorn_planet_abi, function(contract)
     {
         var planet_exists = contract.exists(x_cord, y_cord, z_cord).toString();
         if(planet_exists === 'true')
@@ -525,8 +510,8 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
                 owner: plannet_owner,
                 total: total_planets
             };
-            var animal_seed = parseInt(unicorn_planet.dna[0].substring(0, 12));
-            unicorn_planet.seed = parseInt(unicorn_planet.id.substring(0, 12));
+            var animal_seed = parseInt(unicorn_planet.dna[0].substring(0, 10));
+            unicorn_planet.seed = parseInt(unicorn_planet.id.substring(0, 10));
             // 13 & 14 + 15 & 16 now free for something else???
             // Perhaps start with planet background ...???
             unicorn_planet.animals = {
@@ -534,24 +519,40 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
                 species: random_planetary_life(animal_seed)
             };
             unicorn_names = new unicorn_name_generator(unicorn_vocabulary, unicorn_planet.seed);
+            unicorn_planet.space = [
+                parseInt(unicorn_planet.id.substring(10, 12)),
+                parseInt(unicorn_planet.id.substring(12, 14)),
+                parseInt(unicorn_planet.id.substring(14, 16))
+            ];
             unicorn_planet.oceans = [
-                parseInt(unicorn_planet.id.substring(17, 19)),
-                parseInt(unicorn_planet.id.substring(20, 22)),
-                parseInt(unicorn_planet.id.substring(23, 25))
+                parseInt(unicorn_planet.id.substring(16, 18)),
+                parseInt(unicorn_planet.id.substring(18, 20)),
+                parseInt(unicorn_planet.id.substring(20, 22))
             ];
             unicorn_planet.rural = [
-                parseInt(unicorn_planet.id.substring(26, 28)),
-                parseInt(unicorn_planet.id.substring(29, 31)),
-                parseInt(unicorn_planet.id.substring(32, 34))
+                parseInt(unicorn_planet.id.substring(22, 24)),
+                parseInt(unicorn_planet.id.substring(24, 26)),
+                parseInt(unicorn_planet.id.substring(26, 28))
             ];
             unicorn_planet.urban = [
-                parseInt(unicorn_planet.id.substring(35, 37)),
-                parseInt(unicorn_planet.id.substring(38, 40)),
-                parseInt(unicorn_planet.id.substring(41, 43))
+                parseInt(unicorn_planet.id.substring(28, 30)),
+                parseInt(unicorn_planet.id.substring(30, 32)),
+                parseInt(unicorn_planet.id.substring(32, 34))
             ];
+            unicorn_planet.sun = [
+                parseInt(unicorn_planet.id.substring(34, 36)),
+                parseInt(unicorn_planet.id.substring(36, 38)),
+                parseInt(unicorn_planet.id.substring(38, 40))
+            ];
+            var space = ntc.name(rgbToHex(unicorn_planet.space[0], unicorn_planet.space[1], unicorn_planet.space[2]));
+            var sun = ntc.name(rgbToHex(unicorn_planet.sun[0], unicorn_planet.sun[1], unicorn_planet.sun[2]));
             var oceanic = ntc.name(rgbToHex(unicorn_planet.oceans[0], unicorn_planet.oceans[1], unicorn_planet.oceans[2]));
             var rural = ntc.name(rgbToHex(unicorn_planet.rural[0], unicorn_planet.rural[1], unicorn_planet.rural[2]));
             var urban = ntc.name(rgbToHex(unicorn_planet.urban[0], unicorn_planet.urban[1], unicorn_planet.urban[2]));
+            unicorn_planet.space.push(space[0]);
+            unicorn_planet.space.push(space[1]);
+            unicorn_planet.sun.push(sun[0]);
+            unicorn_planet.sun.push(sun[1]);
             unicorn_planet.oceans.push(oceanic[0]);
             unicorn_planet.oceans.push(oceanic[1]);
             unicorn_planet.rural.push(rural[0]);
@@ -562,6 +563,10 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
                 male: generate_unicorn_name('male'),
                 female: generate_unicorn_name('female')
             };
+            
+            var space_gradient = 'radial-gradient(ellipse at bottom, ' + space[0] + ' 0%, ' + sun[0] + ' 100%)';
+            $('#space').css({background: space_gradient});
+            
             callback(unicorn_planet);
         }
         else
