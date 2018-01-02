@@ -327,11 +327,14 @@ $(document).ready(function()
         contents+= '<ul class="list-group">';
         
             contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,5,5">Thinko</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=6,6,6">Hellio 1</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smalltopia</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,3,1979">Smallville</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=4,4,4">Quartz</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=88,88,88">Gentin</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=1066,1066,1066">Williamsphere III</a></li>';
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=5935,7318,1022">Republic of Ropsten</a></li>';
