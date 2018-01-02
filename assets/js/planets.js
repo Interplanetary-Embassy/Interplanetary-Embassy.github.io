@@ -134,11 +134,46 @@ function assign_new_planet(abi_options, contract_address, parameters, from_addre
 
 $(document).ready(function()
 {
+    $('body').on('click', '.galactic-directory', function(e)
+    {
+        e.preventDefault();
+        var title = 'Interplanetary Directory';
+        //var contents = '<p>Known planets within the Ropsten universe include:</p>';
+        var contents = '<p>Known planets within the <a href="https://etherscan.io/address/0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68" target="_blank">Ethereum</a> universe include:</p><hr>';
+        contents+= '<ul class="list-group">';
+        
+            contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,5,5">Thinko</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=6,6,6">Hellio 1</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smalltopia</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,3,1979">Smallville</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=4,4,4">Quartz</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=88,88,88">Gentin</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=1066,1066,1066">Williamsphere III</a></li>';
+        
+            /*
+            contents+= '<li class="list-group-item"><a href="?coords=5935,7318,1022">Republic of Ropsten</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=0,9,3">Ropsten Republic</a></li>';
+            */
+        
+        contents+= '</ul>';
+        $.fn.bloqpress.core.modal(title, contents);
+    });
     var show_search = true;
     if(window.location.search)
     {
         var s = window.location.search.split('coords=');
-        if(s.length > 1)
+        var action = window.location.search.split('action=');
+        if(action.length > 1)
+        {
+            if(action[1] == 'directory')
+            {
+                show_search = false;
+                $('.galactic-directory').trigger('click');
+            }
+        }
+        else if(s.length > 1)
         {
             show_planet = true;
             var cord_array = s[1].split(',');
@@ -287,7 +322,7 @@ $(document).ready(function()
                 var abi = web3.eth.contract(unicorn_planet_abi);
                 var contract = abi.at(bloqverse_settings.universe.contract);
                 var data = contract['assignNewPlanet'].getData(bloqverse_settings.universe.donations, x_coors, y_coors, z_coors,'The Longest Possible Planet Name Someone Would Seriously Consider?');
-                var wei_to_send = parseInt(web3.toWei(0.1));
+                var wei_to_send = parseInt(web3.toWei(bloqverse_settings.universe.min_donation));
                 var gas_price = web3.eth.gasPrice;
 
                 var estimated_gas = web3.eth.estimateGas({
@@ -299,11 +334,13 @@ $(document).ready(function()
 
                 var fees = gas_price * estimated_gas;
                 var total_fees = web3.toDecimal(web3.fromWei(fees), 'ether');
-                var total_wei_required = fees + wei_to_send;
-                var total_eth_required = parseFloat(web3.toDecimal(web3.fromWei(total_wei_required), 'ether')).toFixed(2);
+                var total_rounded_fees = Math.ceil((web3.toDecimal(web3.fromWei(fees), 'ether')) * 100) / 100;
+                var rounded_fees = web3.toWei(total_rounded_fees, 'ether');
+                var total_wei_required = parseInt(rounded_fees) + parseInt(wei_to_send);
+                var total_eth_required = parseFloat(web3.toDecimal(web3.fromWei(total_wei_required), 'ether')).toFixed(1);
 
                 var title = 'Generate New Planet';
-                var contents = '<p>Generate planet at X = '+x_coors+', Y = '+y_coors+', and Z = '+z_coors+' by giving it a name and making a minimum donation of 0.1 Ether - whilst also paying the estimated gas price of '+total_fees+' - for a <strong>minimum total</strong> of at least <strong>'+total_eth_required+'</strong> Ether. Please note that as a registered non-profit - all donations received by the <a href="http://bce.asia" target="_blank">Blockchain Embassy</a> are used to help promote blockchain technology awareness throughout asia.</p><p><strong>Simply fill out the form below to get started:</strong></p><hr>';
+                var contents = '<p>Generate planet at X = '+x_coors+', Y = '+y_coors+', and Z = '+z_coors+' by giving it a name and making a minimum donation of ' + bloqverse_settings.universe.min_donation + ' Ether - whilst also paying the estimated gas price of '+total_fees+' - for a <strong>minimum total</strong> of at least <strong>'+total_eth_required+'</strong> Ether. Please note that as a registered non-profit - all donations received by the <a href="http://bce.asia" target="_blank">Blockchain Embassy</a> are used to help promote blockchain technology awareness throughout asia.</p><p><strong>Simply fill out the form below to get started:</strong></p><hr>';
                 contents+= '<form id="generate-new-planet" data-x="'+x_coors+'" data-y="'+y_coors+'" data-z="'+z_coors+'" data-min="'+total_eth_required+'" data-fees="' + total_fees + '">';
                     contents+= '<input type="text" id="planet-name" class="form-control" autocomplete="off" placeholder="What would you like to call this planet...?" /><hr>';
                     contents+= '<input type="text" id="planet-owner" class="form-control" autocomplete="off" placeholder="Ethereum address to which ownership of the planet should be assigned...?" /><hr>';
@@ -317,32 +354,6 @@ $(document).ready(function()
     {
         e.preventDefault();
         $('#search-modal').modal('toggle');
-    });
-    $('body').on('click', '.galactic-directory', function(e)
-    {
-        e.preventDefault();
-        var title = 'Interplanetary Directory';
-        //var contents = '<p>Known planets within the Ropsten universe include:</p>';
-        var contents = '<p>Known planets within the <a href="https://etherscan.io/address/0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68" target="_blank">Ethereum</a> universe include:</p><hr>';
-        contents+= '<ul class="list-group">';
-        
-            contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=5,5,5">Thinko</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=6,6,6">Hellio 1</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smalltopia</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=5,3,1979">Smallville</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=4,4,4">Quartz</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=88,88,88">Gentin</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=1066,1066,1066">Williamsphere III</a></li>';
-        
-            /*
-            contents+= '<li class="list-group-item"><a href="?coords=5935,7318,1022">Republic of Ropsten</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=0,9,3">Ropsten Republic</a></li>';
-            */
-        
-        contents+= '</ul>';
-        $.fn.bloqpress.core.modal(title, contents);
     });
     $.fn.bloqpress.plugins.ethereum.contracts.get(bloqverse_settings.universe.contract, unicorn_planet_abi, function(contract)
     {

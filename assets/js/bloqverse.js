@@ -4,7 +4,7 @@ var bloqverse_settings = {
         contract: '0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68',
         donations: '0x1aFa7039c7c0c896E6e76e43E536E925b5Fc871d',
         coordinate_limits: 9999,
-        min_donation: 0.1
+        min_donation: 0.09
     }
 };
 
