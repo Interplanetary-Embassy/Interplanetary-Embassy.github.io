@@ -150,17 +150,13 @@ $(document).ready(function()
             contents+= '<li class="list-group-item"><a href="?coords=93,1,29">Tineedeztroy</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,5,5">Thinko</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=13,1,89">Zion</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=99,99,99">Far Point 9</a></li>';
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=6,6,6">Hellio 1</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=4,4,4">Quartz</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=88,88,88">Gentin</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1066,1066,1066">Williamsphere III</a></li>';
-            */
-        
-            /*
-            contents+= '<li class="list-group-item"><a href="?coords=5935,7318,1022">Republic of Ropsten</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=0,9,3">Ropsten Republic</a></li>';
             */
         
         contents+= '</ul>';
@@ -408,27 +404,29 @@ function check_for_donations(check_count)
                 {
                     var current_ether = 0;
                     var min_wei = parseInt(parseFloat(min) * 1000000000000000000);
-                    var min_donation = parseInt(parseFloat(bloqverse_settings.universe.min_donation) * 1000000000000000000);
-                    
-                    var abi = web3.eth.contract(unicorn_planet_abi);
-                    var contract = abi.at(bloqverse_settings.universe.contract);
-                    var data = contract['assignNewPlanet'].getData(owner, x_cord, y_cord, z_cord, name);
-
-                    var gas_price = web3.eth.gasPrice;
-                    var new_contract_cost = web3.eth.estimateGas({
-                        from: address,
-                        to: bloqverse_settings.universe.contract,
-                        data: data,
-                        value: obj.balance
-                    });
-                    
-                    contract_cost = new_contract_cost * gas_price;
                     
                     if(
                         typeof obj.balance != 'undefined'
                         && obj.balance >= min_wei
                     ){
                         $(qr).removeClass('wait-for-donation');
+                        
+                        var min_donation = parseInt(parseFloat(bloqverse_settings.universe.min_donation) * 1000000000000000000);
+                    
+                        var abi = web3.eth.contract(unicorn_planet_abi);
+                        var contract = abi.at(bloqverse_settings.universe.contract);
+                        var data = contract['assignNewPlanet'].getData(owner, x_cord, y_cord, z_cord, name);
+
+                        var gas_price = web3.eth.gasPrice;
+                        var new_contract_cost = web3.eth.estimateGas({
+                            from: address,
+                            to: bloqverse_settings.universe.contract,
+                            data: data,
+                            value: obj.balance
+                        });
+
+                        contract_cost = new_contract_cost * gas_price;
+                        
                         var tx_value = obj.balance - contract_cost;
                         var tx_eth_value = parseFloat(tx_value / 1000000000000000000);
                         
@@ -444,6 +442,7 @@ function check_for_donations(check_count)
                                 {
                                     title = 'New Life Spawned ...';
                                     contents = '<p>The planet of <strong>' + name + ' has been <a href="https://etherscan.io/tx/' + hash + '" target="_blank">generated</a> on the Ethereum blockchain!</p>';
+                                    contents = '<p>However, please note that it may take a minute or two for the transaction to confirm and visiting the planet before the transaction has been confirmed could result in temporary page errors. You could wait until <a href="https://etherscan.io/tx/' + hash + '" target="_blank">this transaction</a> has received its first confirmation - or try your luck now:</p>';
                                     contents+= '<hr><a href="?coords=' + x_cord + ',' + y_cord + ',' + z_cord + '" class="btn btn-block btn-xl btn-primary">Visit Planet</a>';
                                 }
                                 $.fn.bloqpress.core.modal(title, contents);
