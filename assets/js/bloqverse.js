@@ -136,7 +136,7 @@ var bloqverse = {
                 });
                 planet_meta+= '' + bloqverse_settings.universe.name;
                 
-                var planet_intro = 'In that vast depths of ' + space + ' space the planet of ' + planet.name + ' orbits a nearby ' + sun + ' sun. On the planet surface ' + cities + ' cities have starting developing on the islands of ' + islands + ' that lie scattered across a ' + ocean + ' ocean. Under the leadership of ' + planet.rulers.male + '; these ' + species + ' have become the dominant species:';
+                var planet_intro = 'In that vast depths of ' + space + ' space the planet of ' + planet.name + ' orbits a nearby ' + sun + ' sun. On the planet surface ' + cities + ' cities have started developing on the islands of ' + islands + ' that lie scattered across a ' + ocean + ' ocean. Under the leadership of ' + planet.rulers.male + '; these ' + species + ' have become the dominant species:';
                 
                 $(modal).find('.modal-title').text(planet.name);
                 $(modal).find('.universe-contract').text(bloqverse_settings.universe.contract);
