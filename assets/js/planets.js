@@ -145,6 +145,7 @@ $(document).ready(function()
             contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smallville</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=99,99,99">Far Point 9</a></li>';
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders</a></li>';
