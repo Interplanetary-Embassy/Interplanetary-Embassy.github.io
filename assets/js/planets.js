@@ -88,7 +88,7 @@ function assign_new_planet(abi_options, contract_address, parameters, from_addre
 {
     var abi = web3.eth.contract(abi_options);
     var contract = abi.at(contract_address);
-    var data = contract['assignNewPlanet'].getData(parameters.owner, parameters.x, parameters.y, parameters.z, parameters.name);
+    var data = contract['assignNewPlanet'].getData(parameters.owner, parameters.x, parameters.y, parameters.z, parameters.name, parameters.liason, parameters.url);
     var ether_to_send = web3.fromDecimal(web3.toWei(amount), 'ether');
     var wei_to_send = parseInt(web3.toWei(amount));
     var gas_price = web3.eth.gasPrice;
@@ -144,13 +144,16 @@ $(document).ready(function()
         
             contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smallville</a></li>';
+        
+            /*
+            contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=92,9,10">Republic Gargantua</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=93,1,29">Tineedeztroy</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,5,5">Thinko</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=13,1,89">Zion</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=99,99,99">Far Point 9</a></li>';
+            */
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=6,6,6">Hellio 1</a></li>';
@@ -203,7 +206,9 @@ $(document).ready(function()
         var fees = $(form).attr('data-fees');
         var name = $(form).find('#planet-name').val();
         var owner = $(form).find('#planet-owner').val();
-        if(x && y && z && min && name && owner && fees)
+        var liason = $(form).find('#human-owner').val();
+        var url = $(form).find('#human-url').val();
+        if(x && y && z && min && name && owner && fees && liason && url)
         {
             // Time to calculate the temporary keys ...
             // var temp_seed = 'temp-seed-for-bloqverse-bce-001';
@@ -222,7 +227,7 @@ $(document).ready(function()
             var title = 'Start Minting Planet';
             var content = '<alert class="alert alert-block alert-danger">Warning:<br><small>Do not close this pop-up until the process is complete</small><hr>Donation Address<br><small><a href="https://etherscan.io/address/' + temp_keys.address + '" target="_blank">0x' + temp_keys.address + '</a></small></alert>';
             content+= '<alert id="current-generation-status" class="alert alert-block alert-warning">Status:<br><small><strong>Waiting for minimum deposit of ' + min + ' Ether</strong><br>(send to address listed above and shown below as QR code)</small></alert><hr>';
-            content+= '<div class="qr-holder wait-for-donation" data-content="' + '0x' + temp_keys.address + '" data-key="' + temp_keys.private + '" data-name="' + name + '" data-owner="' + owner + '" data-x="' + x + '" data-y="' + y + '" data-z="' + z + '" data-min="' + min +'" data-fees="' + fees + '"></div>';
+            content+= '<div class="qr-holder wait-for-donation" data-content="' + '0x' + temp_keys.address + '" data-key="' + temp_keys.private + '" data-name="' + name + '" data-owner="' + owner + '" data-x="' + x + '" data-y="' + y + '" data-z="' + z + '" data-min="' + min +'" data-fees="' + fees + '" data-liason="' + liason + '" data-url="' + url + '"></div>';
             $.fn.bloqpress.core.modal(title, content, 'default-modal', function()
             {
                 $('body').find('.qr-holder').each(function()
@@ -292,6 +297,7 @@ $(document).ready(function()
         var x_coors = $(button).attr('data-x');
         var y_coors = $(button).attr('data-y');
         var z_coors = $(button).attr('data-z');
+        
         if(x_coors && y_coors && z_coors)
         {
             var x_cord = parseInt(x_coors);
@@ -323,7 +329,13 @@ $(document).ready(function()
 
                 var abi = web3.eth.contract(unicorn_planet_abi);
                 var contract = abi.at(bloqverse_settings.universe.contract);
-                var data = contract['assignNewPlanet'].getData(bloqverse_settings.universe.donations, x_coors, y_coors, z_coors,'The Longest Possible Planet Name Someone Would Seriously Consider?');
+                var data = contract['assignNewPlanet'].getData(bloqverse_settings.universe.donations, x_coors, y_coors, z_coors,'The Longest Possible Planet Name Someone Would Seriously Consider?', 'The Expected Name is Currently Unknown', 'http://bce.asia?ref=this-could-really-be-anything');
+                
+                console.log('contract', contract);
+                console.log('contract.MinimumDonation()', contract.MinimumDonation().toNumber());
+                
+                bloqverse_settings.universe.min_donation = web3.toDecimal(web3.fromWei(contract.MinimumDonation().toNumber()), 'ether');
+                
                 var wei_to_send = parseInt(web3.toWei(bloqverse_settings.universe.min_donation));
                 var gas_price = web3.eth.gasPrice;
 
@@ -336,16 +348,17 @@ $(document).ready(function()
 
                 var fees = gas_price * estimated_gas;
                 var total_fees = web3.toDecimal(web3.fromWei(fees), 'ether');
-                var total_rounded_fees = Math.ceil((web3.toDecimal(web3.fromWei(fees), 'ether')) * 100) / 100;
-                var rounded_fees = web3.toWei(total_rounded_fees, 'ether');
-                var total_wei_required = parseInt(rounded_fees) + parseInt(wei_to_send);
-                var total_eth_required = parseFloat(web3.toDecimal(web3.fromWei(total_wei_required), 'ether')).toFixed(1);
+
+                var total_wei_required = parseInt(fees) + parseInt(wei_to_send);
+                var total_eth_required = web3.toDecimal(web3.fromWei(total_wei_required), 'ether');
 
                 var title = 'Generate New Planet';
                 var contents = '<p>Generate planet at X = '+x_coors+', Y = '+y_coors+', and Z = '+z_coors+' by giving it a name and making a minimum donation of ' + bloqverse_settings.universe.min_donation + ' Ether - whilst also paying the estimated gas price of '+total_fees+' - for a <strong>minimum total</strong> of at least <strong>'+total_eth_required+'</strong> Ether. Please note that as a registered non-profit - all donations received by the <a href="http://bce.asia" target="_blank">Blockchain Embassy</a> are used to help promote blockchain technology awareness throughout asia.</p><p><strong>Simply fill out the form below to get started:</strong></p><hr>';
                 contents+= '<form id="generate-new-planet" data-x="'+x_coors+'" data-y="'+y_coors+'" data-z="'+z_coors+'" data-min="'+total_eth_required+'" data-fees="' + total_fees + '">';
                     contents+= '<input type="text" id="planet-name" class="form-control" autocomplete="off" placeholder="What would you like to call this planet...?" /><hr>';
                     contents+= '<input type="text" id="planet-owner" class="form-control" autocomplete="off" placeholder="Ethereum address to which ownership of the planet should be assigned...?" /><hr>';
+                    contents+= '<input type="text" id="human-owner" class="form-control" autocomplete="off" placeholder="Human Liason on Earth...?" /><hr>';
+                    contents+= '<input type="text" id="human-url" class="form-control" autocomplete="off" placeholder="Interweb Liason Link (URL)...?" /><hr>';
                     contents+= '<button type="submit" class="btn btn-block btn-primary">Start Planet Generation Process</button>';
                 contents+= '</form>';
                 $.fn.bloqpress.core.modal(title, contents);
@@ -382,7 +395,9 @@ function check_for_donations(check_count)
         var key = $(qr).attr('data-key');
         var min = $(qr).attr('data-min');
         var fees = $(qr).attr('data-fees');
-        if(x && y && z && name && owner && address && key && min && fees)
+        var liason = $(qr).attr('data-liason');
+        var url = $(qr).attr('data-url');
+        if(x && y && z && name && owner && address && key && min && fees && liason && url)
         {
             var x_cord = parseInt(x);
             var y_cord = parseInt(y);
@@ -415,7 +430,7 @@ function check_for_donations(check_count)
                     
                         var abi = web3.eth.contract(unicorn_planet_abi);
                         var contract = abi.at(bloqverse_settings.universe.contract);
-                        var data = contract['assignNewPlanet'].getData(owner, x_cord, y_cord, z_cord, name);
+                        var data = contract['assignNewPlanet'].getData(owner, x_cord, y_cord, z_cord, name, liason, url);
 
                         var gas_price = web3.eth.gasPrice;
                         var new_contract_cost = web3.eth.estimateGas({
@@ -432,7 +447,7 @@ function check_for_donations(check_count)
                         
                         prepare_for_planet_creation(
                             x_cord, y_cord, z_cord, 
-                            name, owner, 
+                            name, liason, url, owner, 
                             tx_eth_value, address, key, 
                             function(hash)
                             {
@@ -474,7 +489,7 @@ function check_for_donations(check_count)
     });
 }
 
-function prepare_for_planet_creation(x_co, y_co, z_co, planet_name, planet_owner, tx_value, holding_address, holding_key, callback)
+function prepare_for_planet_creation(x_co, y_co, z_co, planet_name, liason, url, planet_owner, tx_value, holding_address, holding_key, callback)
 {
     assign_new_planet(
         unicorn_planet_abi, 
@@ -484,7 +499,9 @@ function prepare_for_planet_creation(x_co, y_co, z_co, planet_name, planet_owner
             y: parseInt(y_co),
             z: parseInt(z_co),
             name: planet_name,
-            owner: planet_owner
+            owner: planet_owner,
+            liason: liason,
+            url: url
         },
         holding_address, 
         holding_key, 
@@ -507,6 +524,8 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
             var total_planets = contract.totalSupply().toString();
             var plannet_owner = contract.ownerOfPlanet(x_cord, y_cord, z_cord).toString();
             var planet_name = contract.planetName(x_cord, y_cord, z_cord).toString();
+            var planet_liason = contract.GetLiasonName(x_cord, y_cord, z_cord).toString();
+            var planet_url = contract.GetLiasonURL(x_cord, y_cord, z_cord).toString();
             var dna = contract.planetLife(x_cord, y_cord, z_cord);
             var dna_strings = [];
             $.each(dna, function(i)
@@ -526,6 +545,8 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
                 ],
                 id: planet_id,
                 name: planet_name,
+                liason: planet_liason,
+                url: planet_url,
                 owner: plannet_owner,
                 total: total_planets
             };
@@ -533,9 +554,20 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
             unicorn_planet.seed = parseInt(unicorn_planet.id.substring(0, 10));
             // 13 & 14 + 15 & 16 now free for something else???
             // Perhaps start with planet background ...???
+            var primary_species = random_planetary_life(animal_seed).split(' ');
+            var species_type = primary_species[0];
+            var species_animal = primary_species[1];
+            var next_species = random_planetary_life(animal_seed - (animal_seed / 2)).split(' ');
+            var second_species_type = next_species[0];
+            var second_species_animal = next_species[1];
             unicorn_planet.animals = {
                 seed: animal_seed,
-                species: random_planetary_life(animal_seed)
+                species: random_planetary_life(animal_seed),
+                type: species_type,
+                animal: species_animal,
+                second_species: next_species,
+                second_type: second_species_type,
+                second_animal: second_species_animal
             };
             unicorn_names = new unicorn_name_generator(unicorn_vocabulary, unicorn_planet.seed);
             unicorn_planet.space = [
@@ -563,11 +595,23 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
                 parseInt(unicorn_planet.id.substring(36, 38)),
                 parseInt(unicorn_planet.id.substring(38, 40))
             ];
+            unicorn_planet.species = [
+                parseInt(unicorn_planet.id.substring(40, 42)),
+                parseInt(unicorn_planet.id.substring(42, 44)),
+                parseInt(unicorn_planet.id.substring(44, 46))
+            ];
+            unicorn_planet.second_species = [
+                parseInt(unicorn_planet.id.substring(46, 48)),
+                parseInt(unicorn_planet.id.substring(48, 50)),
+                parseInt(unicorn_planet.id.substring(50, 52))
+            ];
             var space = ntc.name(rgbToHex(unicorn_planet.space[0], unicorn_planet.space[1], unicorn_planet.space[2]));
             var sun = ntc.name(rgbToHex(unicorn_planet.sun[0], unicorn_planet.sun[1], unicorn_planet.sun[2]));
             var oceanic = ntc.name(rgbToHex(unicorn_planet.oceans[0], unicorn_planet.oceans[1], unicorn_planet.oceans[2]));
             var rural = ntc.name(rgbToHex(unicorn_planet.rural[0], unicorn_planet.rural[1], unicorn_planet.rural[2]));
             var urban = ntc.name(rgbToHex(unicorn_planet.urban[0], unicorn_planet.urban[1], unicorn_planet.urban[2]));
+            var species = ntc.name(rgbToHex(unicorn_planet.species[0], unicorn_planet.species[1], unicorn_planet.species[2]));
+            var next_species = ntc.name(rgbToHex(unicorn_planet.second_species[0], unicorn_planet.second_species[1], unicorn_planet.second_species[2]));
             unicorn_planet.space.push(space[0]);
             unicorn_planet.space.push(space[1]);
             unicorn_planet.sun.push(sun[0]);
@@ -578,12 +622,14 @@ function get_eth_planet(x_cord, y_cord, z_cord, callback)
             unicorn_planet.rural.push(rural[1]);
             unicorn_planet.urban.push(urban[0]);
             unicorn_planet.urban.push(urban[1]);
+            unicorn_planet.animals.color = species[1];
+            unicorn_planet.animals.second_color = next_species[1];
             unicorn_planet.rulers = {
                 male: generate_unicorn_name('male'),
                 female: generate_unicorn_name('female')
             };
             
-            var space_gradient = 'radial-gradient(ellipse at bottom, ' + space[0] + ' 0%, ' + sun[0] + ' 100%)';
+            var space_gradient = 'radial-gradient(ellipse at bottom, ' + sun[0] + ' 0%, ' + space[0] + ' 100%)';
             $('#space').css({background: space_gradient});
             
             callback(unicorn_planet);

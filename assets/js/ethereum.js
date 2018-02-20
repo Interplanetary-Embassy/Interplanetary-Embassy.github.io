@@ -73,6 +73,7 @@
         //web3 = new Web3(new Web3.providers.HttpProvider("http://52.230.14.67:8545"));
         //web3 = new Web3(new Web3.providers.HttpProvider("http://52.230.121.185:18545"));
         web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/ThsYJEjOyNLXhblhajQN"));
+        // web3 = new Web3(new Web3.providers.HttpProvider("http://52.237.78.225:20545")); // Neuroware Private Net
         //console.log(web3.eth.getBlock('latest'));
     }
     

@@ -2666,6 +2666,10 @@ function generatePlanetStatistics(topology, plates, action)
 	$('.rural-biome .stat').text(parseInt(rural / one_percent));
 	$('.urban-biome .stat').text(parseInt(urban / one_percent));
     
+    $('.terrain-ocean').text(parseInt(ocean / one_percent));
+	$('.terrain-rural').text(parseInt(rural / one_percent));
+	$('.terrain-urban').text(parseInt(urban / one_percent));
+    
 	action.provideResult(statistics);
 }
 

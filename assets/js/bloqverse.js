@@ -1,10 +1,9 @@
 var bloqverse_settings = {
     universe: {
         name: 'bce.asia',
-        contract: '0x99311dd2f159320e6ce94d4427a184b4cc080de5',
-        donations: '0x4867C28C13901000a59749595118141FB8D7B88d',
-        coordinate_limits: 99,
-        min_donation: 0.09
+        contract: '0xBCdD8d27C8761d13107f6d44caBd2F766D091615',
+        donations: '0x1aFa7039c7c0c896E6e76e43E536E925b5Fc871d',
+        coordinate_limits: 99
     }
 };
 
@@ -58,7 +57,11 @@ var bloqverse = {
                 coords+= unicorn_planet.coordinates[1] + ', ';
                 coords+= unicorn_planet.coordinates[2] + ' ]';
                 
-                var animal_array = planet.animals.species.split(' ');
+                var species = planet.animals.type + ' ' + planet.animals.color + ' ' + planet.animals.animal;
+                var next_species = planet.animals.second_type + ' ' + planet.animals.second_color + ' ' + planet.animals.second_animal;
+                
+                var animal_array = species.split(' ');
+                var animals_array = next_species.split(' ');
                 var ocean_array = ocean.split(' ');
                 var island_array = islands.split(' ');
                 var city_array = cities.split(' ');
@@ -102,6 +105,14 @@ var bloqverse = {
                         planet_meta+= '' + this_value + ', ';
                     }
                 });
+                $.each(animals_array, function(i)
+                {
+                    var this_value = animals_array[i].toLowerCase();
+                    if(this_value != 'of' && this_value != 'the' && planet_meta.indexOf(this_value) < 0)
+                    {
+                        planet_meta+= '' + this_value + ', ';
+                    }
+                });
                 $.each(rulers_array, function(i)
                 {
                     var this_value = rulers_array[i].toLowerCase();
@@ -136,15 +147,31 @@ var bloqverse = {
                 });
                 planet_meta+= '' + bloqverse_settings.universe.name;
                 
-                var planet_intro = 'In that vast depths of ' + space + ' space the planet of ' + planet.name + ' orbits a nearby ' + sun + ' sun. On the planet surface ' + cities + ' cities have started developing on the islands of ' + islands + ' that lie scattered across a ' + ocean + ' ocean. Under the leadership of ' + planet.rulers.male + '; these ' + species + ' have become the dominant species:';
+                var ruling_family = planet.rulers.male;
+                var next_in_line = planet.rulers.female;
+                
+                var ruling_number = parseInt(planet.animals.seed);
+                var ruling_random = new XorShift128(parseInt(ruling_number));
+                var ruling_class = ruling_random.integer(0, 1);
+                
+                if(ruling_class > 0)
+                {
+                    ruling_family = planet.rulers.female;
+                    next_in_line = planet.rulers.male;
+                }
+                
+                var planet_intro = 'In that vast depths of ' + space + ' space the planet of ' + planet.name + ' orbits a nearby ' + sun + ' sun. On the planet surface ' + cities + ' cities have started developing on the islands of ' + islands + ' that lie scattered across a ' + ocean + ' ocean. Under the leadership of ' + ruling_family + '; these ' + species + ' have become the dominant species. The whispered rumours of a ' + next_species + ' rebellion by ' + next_in_line + ' brings the planet of ' + planet.name + ' to the brink of war.';
                 
                 $(modal).find('.modal-title').text(planet.name);
                 $(modal).find('.universe-contract').text(bloqverse_settings.universe.contract);
-                $(modal).find('.primary-species').text(planet.animals.species);
+                $(modal).find('.primary-species').text(species);
+                $(modal).find('.next-species').text(next_species);
                 $(modal).find('.planet-owner').text(planet.owner);
+                $(modal).find('.human-liason').text(planet.liason);
+                $(modal).find('.human-liason').attr('href', planet.url);
                 $(modal).find('.universal-coordinates').text(coords);
-                $(modal).find('.ruling-monarch').text(planet.rulers.male);
-                $(modal).find('.next-monarch').text(planet.rulers.female);
+                $(modal).find('.ruling-monarch').text(ruling_family);
+                $(modal).find('.next-monarch').text(next_in_line);
                 $(modal).find('.planet-dna').text(planet_dna);
                 $(modal).find('.planet-meta').text(planet_meta);
                 $(modal).find('.planet-intro').text(planet_intro);
