@@ -142,11 +142,11 @@ $(document).ready(function()
         var contents = '<p>Known planets within the <a href="https://etherscan.io/address/0x83EbB03Be2f5AC37a5FF28c685dcf2685E9d6e68" target="_blank">Ethereum</a> universe include:</p><hr>';
         contents+= '<ul class="list-group">';
         
-            contents+= '<li class="list-group-item"><a href="?coords=99,99,99">Far Point 9</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smallville</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders</a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=99,99,99">Far Point 9 <label class="label label-default pull-right">[ 99, 99, 99 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime <label class="label label-default pull-right">[ 0, 0, 0 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious <label class="label label-default pull-right">[ 1, 2, 3 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smallville <label class="label label-default pull-right">[ 5, 3, 79 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders <label class="label label-default pull-right">[ 19, 11, 89 ]</label></a></li>';
         
             /*
             contents+= '<li class="list-group-item"><a href="?coords=92,9,10">Republic Gargantua</a></li>';
