@@ -331,11 +331,10 @@ $(document).ready(function()
                 var abi = web3.eth.contract(unicorn_planet_abi);
                 var contract = abi.at(bloqverse_settings.universe.contract);
                 var data = contract['assignNewPlanet'].getData(bloqverse_settings.universe.donations, x_coors, y_coors, z_coors,'The Longest Possible Planet Name Someone Would Seriously Consider?', 'The Expected Name is Currently Unknown', 'http://bce.asia?ref=this-could-really-be-anything');
+                var blocks_left = contract.BlocksToGo().toNumber();
+                var estimated_minimum = web3.toDecimal(web3.fromWei(contract.totalSupply().toNumber() * bloqverse_settings.universe.wei_per_planet), 'ether');
                 
-                console.log('contract', contract);
-                console.log('contract.MinimumDonation()', contract.MinimumDonation().toNumber());
-                
-                bloqverse_settings.universe.min_donation = web3.toDecimal(web3.fromWei(contract.MinimumDonation().toNumber()), 'ether');
+                bloqverse_settings.universe.min_donation = web3.toDecimal(web3.fromWei(contract.GetCost().toNumber()), 'ether');
                 
                 var wei_to_send = parseInt(web3.toWei(bloqverse_settings.universe.min_donation));
                 var gas_price = web3.eth.gasPrice;
@@ -354,7 +353,7 @@ $(document).ready(function()
                 var total_eth_required = web3.toDecimal(web3.fromWei(total_wei_required), 'ether');
 
                 var title = 'Generate New Planet';
-                var contents = '<p>Generate planet at X = '+x_coors+', Y = '+y_coors+', and Z = '+z_coors+' by giving it a name and making a minimum donation of ' + bloqverse_settings.universe.min_donation + ' Ether - whilst also paying the estimated gas price of '+total_fees+' - for a <strong>minimum total</strong> of at least <strong>'+total_eth_required+'</strong> Ether. Please note that as a registered non-profit - all donations received by the <a href="http://bce.asia" target="_blank">Blockchain Embassy</a> are used to help promote blockchain technology awareness throughout asia.</p><p><strong>Simply fill out the form below to get started:</strong></p><hr>';
+                var contents = '<alert class="alert alert-block alert-info">Only ' + blocks_left + ' Blocks Remain Before Minimum Donation Fee Increases<br />(when it is estimated to increase to ' + estimated_minimum + ' ether)</alert><p>Generate planet at X = '+x_coors+', Y = '+y_coors+', and Z = '+z_coors+' by giving it a name and making a minimum donation of ' + bloqverse_settings.universe.min_donation + ' Ether - whilst also paying the estimated gas price of '+total_fees+' - for a <strong>minimum total</strong> of at least <strong>'+total_eth_required+'</strong> Ether. Please note that as a registered non-profit - all donations received by the <a href="http://bce.asia" target="_blank">Blockchain Embassy</a> are used to help promote blockchain technology awareness throughout asia.</p><p><strong>Simply fill out the form below to get started:</strong></p><hr>';
                 contents+= '<form id="generate-new-planet" data-x="'+x_coors+'" data-y="'+y_coors+'" data-z="'+z_coors+'" data-min="'+total_eth_required+'" data-fees="' + total_fees + '">';
                     contents+= '<input type="text" id="planet-name" class="form-control" autocomplete="off" placeholder="What would you like to call this planet...?" /><hr>';
                     contents+= '<input type="text" id="planet-owner" class="form-control" autocomplete="off" placeholder="Ethereum address to which ownership of the planet should be assigned...?" /><hr>';

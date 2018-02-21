@@ -3,7 +3,8 @@ var bloqverse_settings = {
         name: 'bce.asia',
         contract: '0xcE85675eA91F8AFe2a67869A8b1F9136187DC772',
         donations: '0xf725a9b6B83445105F14A60968410eC8000dc0c1',
-        coordinate_limits: 99
+        coordinate_limits: 99,
+        wei_per_planet: 100000000000000
     }
 };
 
