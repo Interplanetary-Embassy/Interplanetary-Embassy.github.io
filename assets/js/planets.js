@@ -144,16 +144,17 @@ $(document).ready(function()
         
             contents+= '<li class="list-group-item"><a href="?coords=99,99,99">Far Point 9 <label class="label label-default pull-right">[ 99, 99, 99 ]</label></a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=0,0,0">Genesis Prime <label class="label label-default pull-right">[ 0, 0, 0 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=10,9,92">Messiah <label class="label label-default pull-right">[ 10, 9, 92 ]</label></a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1,2,3">Obviiious <label class="label label-default pull-right">[ 1, 2, 3 ]</label></a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smallville <label class="label label-default pull-right">[ 5, 3, 79 ]</label></a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders <label class="label label-default pull-right">[ 19, 11, 89 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=92,9,10">Unicornia <label class="label label-default pull-right">[ 92, 9, 10 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=1,13,89">Zion <label class="label label-default pull-right">[ 1, 13, 89 ]</label></a></li>';
         
             /*
-            contents+= '<li class="list-group-item"><a href="?coords=92,9,10">Republic Gargantua</a></li>';
+            // Pink = 92, 9, 10
             contents+= '<li class="list-group-item"><a href="?coords=93,1,29">Tineedeztroy</a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=5,5,5">Thinko</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=13,1,89">Zion</a></li>';
-            contents+= '<li class="list-group-item"><a href="?coords=99,99,99">Far Point 9</a></li>';
             */
         
             /*
