@@ -149,6 +149,7 @@ $(document).ready(function()
             contents+= '<li class="list-group-item"><a href="?coords=5,3,79">Smallville <label class="label label-default pull-right">[ 5, 3, 79 ]</label></a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=19,11,89">The Republic of DroneRiders <label class="label label-default pull-right">[ 19, 11, 89 ]</label></a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=92,9,10">Unicornia <label class="label label-default pull-right">[ 92, 9, 10 ]</label></a></li>';
+            contents+= '<li class="list-group-item"><a href="?coords=20,5,10">Zatul <label class="label label-default pull-right">[ 20, 5, 10 ]</label></a></li>';
             contents+= '<li class="list-group-item"><a href="?coords=1,13,89">Zion <label class="label label-default pull-right">[ 1, 13, 89 ]</label></a></li>';
         
             /*
