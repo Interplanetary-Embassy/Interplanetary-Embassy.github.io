@@ -1362,8 +1362,8 @@
             contract: false,
             contract_address: false,
             abi: false,
-            gas_price: 50000000000,
-            gas_limit: 100000
+            gas_price: web3.eth.gasPrice.toNumber(),
+            gas_limit: 3000000
         }
         var settings = defaults;
         if(typeof options != 'undefined' && $.isPlainObject(options))
