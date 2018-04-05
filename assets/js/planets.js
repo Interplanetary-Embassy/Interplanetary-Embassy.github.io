@@ -92,15 +92,12 @@ function assign_new_planet(abi_options, contract_address, parameters, from_addre
     var ether_to_send = web3.fromDecimal(web3.toWei(amount), 'ether');
     var wei_to_send = parseInt(web3.toWei(amount));
     var gas_price = web3.eth.gasPrice;
-    console.log('gas_price', gas_price);
-    /*
     var estimated_gas = web3.eth.estimateGas({
         from: from_address,
         to: contract_address,
         data: data,
         value: wei_to_send
     });
-    */
     var settings = {
         gas_price: gas_price.toNumber(),
         //gas_limit: estimated_gas
@@ -438,7 +435,6 @@ function check_for_donations(check_count)
                         var data = contract['assignNewPlanet'].getData(owner, x_cord, y_cord, z_cord, name, liason, url);
 
                         var gas_price = web3.eth.gasPrice;
-                        console.log('gas_price1', gas_price);
                         
                         var new_contract_cost = web3.eth.estimateGas({
                             from: address,
@@ -447,7 +443,6 @@ function check_for_donations(check_count)
                             value: obj.balance
                         });
 
-                        console.log('new_contract_cost', new_contract_cost);
                         contract_cost = new_contract_cost * gas_price;
                         
                         var tx_value = obj.balance - contract_cost;
